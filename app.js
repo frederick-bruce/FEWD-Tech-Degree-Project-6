@@ -1,8 +1,8 @@
 // Declare Variables (Global)
 
-const phraseUL = document.querySelector("phrase");
+const phraseUL = document.querySelector("#phrase").firstElementChild;
 const keyBoard = document.querySelector("qwerty");
-const resetBtn = document.querySelector("btn_reset");
+const resetBtn = document.querySelector(".btn_reset");
 const subTitle = document.querySelector(".subTitle");
 const scoreboard = document.querySelector("#scoreboard");
 const hearts = document.querySelectorAll("#scoreboard");
@@ -32,7 +32,7 @@ function getRandomPhraseArray ( arr ) {
 // Loops through an array of characters and appends them to the #phrase ul as list items
 function addPhraseToDisplay( arr ) {
   for ( let i = 0; i < arr.length; i++) {
-    const listItem =document.createElement("li");
+    const listItem = document.createElement("li");
     listItem.textContent = arr[i];
     phraseUL.append(listItem);
     // if the list has text content it isit is given the class "letter", if not, it is given the class "space"
@@ -66,7 +66,7 @@ function checkWin() {
   const show = document.querySelectorAll(".show");
   if ( letter.length === show.length ) {
     setTimeout( () => {
-      overlay.className ="win";
+      overlay.className = "win";
       overlay.style.display = "flex";
       subTitle.textContent = "Congratulations! You Win!";
       scoreboard.style.display = "none";
@@ -98,15 +98,64 @@ function resetHearts() {
 function resetPhrase() {
   phraseUL.innerHTML = "";
   // adds letters to display
-  addPhraseToDisplay( getRandomPhraseAsArray( phrases) )
+  addPhraseToDisplay( getRandomPhraseAsArray( phrases ) )
 }
 
 // resets keyboard
 function resetKeyboard() {
   const chosen = document.querySelectorAll(".chosen");
-  for ( let i = 0; i < chosen.length; i++) {
+  for ( let i = 0; i < chosen.length; i++ ) {
     chosen[i].className = "";
     chosen[i].disabled = false;
-    chosen[i].style.bbackgroundColor = "";
+    chosen[i].style.backgroundColor = "";
   }
 }
+
+// resets random phrase
+function resetPhrase() {
+    phraseUL.innerHTML = '';
+    // adds the letters of the phrase to the display
+    addPhraseToDisplay( getRandomPhraseAsArray( phrases ) )
+}
+
+// resets the game
+function resetGame() {
+    resetKeyboard();
+    resetHearts();
+    resetPhrase();
+    overlay.style.display = 'none';
+    overlay.className = 'start'
+}
+
+
+
+
+// Listen for the start / reset game button to be pressed
+resetBtn.addEventListener( "click", (e) => {
+  e.preventDefault();
+  setTimeout(  () => {
+    resetGame();
+  }, 250)
+});
+
+
+// Listen for the on screen keyboard buttons to be clicked
+keyBoard.addEventListener( 'click', (e) => {
+    const letterBtn = event.target;
+    if ( letterBtn.tagName === 'BUTTON' && letterBtn.className !== 'chosen' ) {
+        letterBtn.className += ' chosen';
+        letterBtn.disabled = true;
+    }
+
+    // matches letter to keyboard button pressed
+    const letterFound = checkLetter(letterBtn);
+
+    // keeps track of tries remaining
+    if ( !letterFound && letterBtn.tagName === 'BUTTON' ) {
+        missed++;
+        hearts[missed - 1].style.opacity = '0.25';
+        letterBtn.style.backgroundColor = '#D98F45';
+    }
+    
+    checkWin();
+});
