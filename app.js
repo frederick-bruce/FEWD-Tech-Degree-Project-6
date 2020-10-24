@@ -45,3 +45,40 @@ function addPhraseToDisplay( arr ) {
   }
 
 }
+
+// Checks to see if phrase letters match with the keyboard btn clicked
+function checkLetter(button) {
+  const letter = document.querySelectorAll(".letter")
+  let match = null;
+  for ( let i = 0; i < letter.length; i++ ) {
+    if ( button.textContent === letter[i].textContent.toLowerCase() ) {
+      letter[i].className += " show";
+      match = letter[i].textContent;
+    }
+  }
+  return match;
+
+}
+
+// checks to see if the game has been won
+function checkWin() {
+  const letter = document.querySelectorAll(".letter");
+  const show = document.querySelectorAll(".show");
+  if ( letter.length === show.length ) {
+    setTimeout( () => {
+      overlay.className ="win";
+      overlay.style.display = "flex";
+      subTitle.textContent = "Congratulations! You Win!";
+      scoreboard.style.display = "none";
+      resetBtn.textContent = "Try Again";
+    }, 750);
+  } else if ( missed >= 5 ) {
+    setTimeout( () => {
+      overlay.className = "lose";
+      overlay.style.display = "flex";
+      subTitle.textContent = "Sorry, please try again";
+      scoreboard.style.display = "none";
+      resetBtn.textContent = "Please Try Again";
+    }, 500);
+  }
+}
