@@ -82,3 +82,31 @@ function checkWin() {
     }, 500);
   }
 }
+
+// resets hearts
+
+function resetHearts() {
+  missed = 0;
+  for ( let i = 0; i < hearts.length; i++ ) {
+    hearts[i].style.opacity = "1";
+    scoreboard.style.display = "";
+  }
+} 
+
+
+// resets random phrase
+function resetPhrase() {
+  phraseUL.innerHTML = "";
+  // adds letters to display
+  addPhraseToDisplay( getRandomPhraseAsArray( phrases) )
+}
+
+// resets keyboard
+function resetKeyboard() {
+  const chosen = document.querySelectorAll(".chosen");
+  for ( let i = 0; i < chosen.length; i++) {
+    chosen[i].className = "";
+    chosen[i].disabled = false;
+    chosen[i].style.bbackgroundColor = "";
+  }
+}
