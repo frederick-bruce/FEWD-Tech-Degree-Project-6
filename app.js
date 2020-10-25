@@ -1,11 +1,11 @@
 // Declare Variables (Global)
 
 const phraseUL = document.querySelector("#phrase").firstElementChild;
-const keyBoard = document.querySelector("qwerty");
-const resetBtn = document.querySelector(".btn_reset");
+const keyBoard = document.querySelector("#qwerty");
+const resetBtn = document.querySelector(".btn__reset");
 const subTitle = document.querySelector(".subTitle");
 const scoreboard = document.querySelector("#scoreboard");
-const hearts = document.querySelectorAll("#scoreboard");
+const hearts = document.querySelectorAll(".tries");
 const overlay = document.getElementById("overlay");
 let missed = 0;
 
@@ -23,7 +23,7 @@ const phrases = [
 // Functions (Global)
 
 // Randomly chooses phrase from phrases array, returns a new array of characters from tge randomly chosen phrase
-function getRandomPhraseArray ( arr ) {
+function getRandomPhraseAsArray ( arr ) {
   let randomPhrase =arr[ Math.floor(Math.random() * arr.length ) ];
   let phraseArray = randomPhrase.split("");
   return phraseArray;
@@ -76,7 +76,7 @@ function checkWin() {
     setTimeout( () => {
       overlay.className = "lose";
       overlay.style.display = "flex";
-      subTitle.textContent = "Sorry, please try again";
+      subTitle.textContent = "You have lost! Please try again.";
       scoreboard.style.display = "none";
       resetBtn.textContent = "Please Try Again";
     }, 500);
@@ -94,12 +94,7 @@ function resetHearts() {
 } 
 
 
-// resets random phrase
-function resetPhrase() {
-  phraseUL.innerHTML = "";
-  // adds letters to display
-  addPhraseToDisplay( getRandomPhraseAsArray( phrases ) )
-}
+
 
 // resets keyboard
 function resetKeyboard() {
